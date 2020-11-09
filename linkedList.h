@@ -23,3 +23,6 @@ void list_push(list L, int pos, int data);
 
 //Remove node from list
 int list_pop(list L, int pos);
+
+//Free a list
+void list_free(list L);

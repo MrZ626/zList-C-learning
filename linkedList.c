@@ -190,3 +190,15 @@ int list_pop(list L, int pos) //remove node from list
 		return 0;
 	}
 }
+void list_free(list L)
+{
+	lNode N = L->head->nextNode;
+	while (N != NULL)
+	{
+		free(N->prevNode);
+		N = N->nextNode;
+	}
+	if (L->tail != NULL)
+		free(L->tail);
+	free(L);
+}
