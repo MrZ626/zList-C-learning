@@ -163,6 +163,8 @@ void list_push(list L, int pos, int data) //Add node to list
 	}
 	else
 	{
+		if (pos < 0)
+			pos = L->len + 1 + pos;
 		pos = pos <= 0 ? 0 : pos < L->len ? pos : L->len;
 		if (pos == 0)
 			list_pushFirst(L, data);
