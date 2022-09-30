@@ -1,15 +1,15 @@
 typedef struct listNode
 {
-	int data;
-	struct listNode *prevNode;
-	struct listNode *nextNode;
+    int data;
+    struct listNode *prevNode;
+    struct listNode *nextNode;
 } * lNode;
 
 typedef struct list
 {
-	int len;
-	lNode head;
-	lNode tail;
+    int len;
+    lNode head;
+    lNode tail;
 } * list;
 
 //Create a new list
