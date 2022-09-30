@@ -1,6 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "linkedList.h"
+
+int clamp(int min,int max,int val){
+    if (val<=min)
+        return min;
+    else if (val>=max)
+        return max;
+    else
+        return val;
+}
 
 static lNode _newNode(int data)
 {
@@ -108,7 +118,7 @@ static int list_popPos(list L, int pos)
     free(node);
 
     L->len--;
-    return 0; //return res;
+    return 0; // return res;
 }
 
 list list_new()
@@ -150,7 +160,7 @@ int list_get(list L, int pos)
         printf("\n<<ERROR : Nothing to get>>\n");
     }
 }
-void list_push(list L, int pos, int data) //Add node to list
+void list_push(list L, int pos, int data) // Add node to list
 {
     lNode node = _newNode(data);
     if (L->len == 0)
@@ -165,7 +175,7 @@ void list_push(list L, int pos, int data) //Add node to list
     {
         if (pos < 0)
             pos = L->len + 1 + pos;
-        pos = pos <= 0 ? 0 : pos < L->len ? pos : L->len;
+        pos = clamp(0,L->len,pos);
         if (pos == 0)
             list_pushFirst(L, data);
         else if (pos == L->len)
@@ -174,7 +184,7 @@ void list_push(list L, int pos, int data) //Add node to list
             list_pushPos(L, pos, data);
     }
 }
-int list_pop(list L, int pos) //remove node from list
+int list_pop(list L, int pos) // remove node from list
 {
     if (L->len > 0)
     {
