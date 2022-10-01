@@ -73,10 +73,12 @@ static void list_pushPos(list L, int pos, int data)
 }
 static int list_popFirst(list L)
 {
-    int res = L->head->data;
     lNode n = L->head;
-    L->head = L->head->nextNode;
+    int res = n->data;
+    L->head = n->nextNode;
     free(n);
+    if (L->head)
+        L->head->nextNode->prevNode = NULL;
     L->len--;
     if (L->len == 0)
         L->tail = NULL;
@@ -84,10 +86,12 @@ static int list_popFirst(list L)
 }
 static int list_popLast(list L)
 {
-    int res = L->tail->data;
     lNode n = L->tail;
-    L->tail = L->tail->prevNode;
+    int res = n->data;
+    L->tail = n->prevNode;
     free(n);
+    if (L->tail)
+        L->tail->prevNode->nextNode = NULL;
     L->len--;
     if (L->len == 0)
         L->head = NULL;
