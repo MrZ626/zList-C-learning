@@ -1,11 +1,11 @@
-typedef struct listNode
+typedef struct _ListNode
 {
     int data;
-    struct listNode *prevNode;
-    struct listNode *nextNode;
+    struct _ListNode *prevNode;
+    struct _ListNode *nextNode;
 } * lNode;
 
-typedef struct list
+typedef struct _List
 {
     int len;
     lNode head;

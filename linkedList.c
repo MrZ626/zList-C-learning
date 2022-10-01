@@ -3,10 +3,11 @@
 #include <math.h>
 #include "linkedList.h"
 
-int clamp(int min,int max,int val){
-    if (val<=min)
+int clamp(int min, int max, int val)
+{
+    if (val <= min)
         return min;
-    else if (val>=max)
+    else if (val >= max)
         return max;
     else
         return val;
@@ -14,7 +15,7 @@ int clamp(int min,int max,int val){
 
 static lNode _newNode(int data)
 {
-    lNode node = (lNode)malloc(sizeof(lNode));
+    lNode node = (lNode)malloc(sizeof(struct _ListNode));
     node->data = data;
     return node;
 }
@@ -73,21 +74,23 @@ static void list_pushPos(list L, int pos, int data)
 static int list_popFirst(list L)
 {
     int res = L->head->data;
-    free(L->head);
+    lNode n = L->head;
     L->head = L->head->nextNode;
-    if (L->len == 1)
-        L->tail = NULL;
+    free(n);
     L->len--;
+    if (L->len == 0)
+        L->tail = NULL;
     return res;
 }
 static int list_popLast(list L)
 {
     int res = L->tail->data;
-    free(L->tail);
+    lNode n = L->tail;
     L->tail = L->tail->prevNode;
-    if (L->len == 1)
-        L->head = NULL;
+    free(n);
     L->len--;
+    if (L->len == 0)
+        L->head = NULL;
     return res;
 }
 static int list_popPos(list L, int pos)
@@ -123,7 +126,7 @@ static int list_popPos(list L, int pos)
 
 list list_new()
 {
-    list L = malloc(sizeof(struct list));
+    list L = malloc(sizeof(struct _List));
     L->head = NULL;
     L->tail = NULL;
     L->len = 0;
@@ -175,7 +178,7 @@ void list_push(list L, int pos, int data) // Add node to list
     {
         if (pos < 0)
             pos = L->len + 1 + pos;
-        pos = clamp(0,L->len,pos);
+        pos = clamp(0, L->len, pos);
         if (pos == 0)
             list_pushFirst(L, data);
         else if (pos == L->len)
@@ -204,13 +207,16 @@ int list_pop(list L, int pos) // remove node from list
 }
 void list_free(list L)
 {
-    lNode N = L->head->nextNode;
-    while (N != NULL)
+    if (L->len > 0)
     {
-        free(N->prevNode);
-        N = N->nextNode;
+        lNode N = L->head->nextNode;
+        while (N != NULL)
+        {
+            free(N->prevNode);
+            N = N->nextNode;
+        }
+        if (L->tail != NULL)
+            free(L->tail);
     }
-    if (L->tail != NULL)
-        free(L->tail);
     free(L);
 }
