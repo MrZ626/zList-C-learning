@@ -77,7 +77,7 @@ static int list_popFirst(list L)
     int res = n->data;
     L->head = n->nextNode;
     free(n);
-    if (L->head)
+    if (L->head != NULL && L->head->nextNode != NULL)
         L->head->nextNode->prevNode = NULL;
     L->len--;
     if (L->len == 0)
@@ -90,7 +90,7 @@ static int list_popLast(list L)
     int res = n->data;
     L->tail = n->prevNode;
     free(n);
-    if (L->tail)
+    if (L->tail != NULL && L->tail->prevNode != NULL)
         L->tail->prevNode->nextNode = NULL;
     L->len--;
     if (L->len == 0)
