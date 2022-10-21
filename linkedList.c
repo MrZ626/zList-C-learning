@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include "linkedList.h"
@@ -139,9 +138,8 @@ size_t list_get(list L, int pos) {
         }
         return node->data;
     }
-    else {
-        printf("\n<<ERROR : Nothing to get>>\n");
-    }
+    else
+        return (size_t)NULL;
 }
 void list_push(list L, int pos, size_t data) // Add node to list
 {
@@ -176,10 +174,8 @@ size_t list_pop(list L, int pos) // remove node from list
         else
             return list_popPos(L, pos);
     }
-    else {
-        printf("\n<<ERROR : Nothing to pop>>\n");
-        return 0;
-    }
+    else
+        return (size_t)NULL;
 }
 void list_free(list L) {
     if (L->len > 0) {
