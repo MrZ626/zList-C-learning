@@ -3,7 +3,7 @@
 #include <math.h>
 #include "linkedList.h"
 
-int clamp(int min, int max, int val)
+static int clamp(int min, int max, int val)
 {
     if (val <= min)
         return min;
