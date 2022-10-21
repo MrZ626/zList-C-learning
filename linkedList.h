@@ -1,16 +1,14 @@
-typedef struct _ListNode
-{
+typedef struct _ListNode {
     int data;
-    struct _ListNode *prevNode;
-    struct _ListNode *nextNode;
-} * lNode;
+    struct _ListNode* prevNode;
+    struct _ListNode* nextNode;
+} *lNode;
 
-typedef struct _List
-{
+typedef struct _List {
     int len;
     lNode head;
     lNode tail;
-} * list;
+} *list;
 
 //Create a new list
 list list_new();
