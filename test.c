@@ -2,8 +2,7 @@
 #include "linkedList.h"
 #define divLine printf("----------\n")
 
-int main()
-{
+int main() {
     divLine;
 
     printf("新建列表并在末尾添加五个数\n");

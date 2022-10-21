@@ -3,8 +3,7 @@
 #include <math.h>
 #include "linkedList.h"
 
-static int clamp(int min, int max, int val)
-{
+static int clamp(int min, int max, int val) {
     if (val <= min)
         return min;
     else if (val >= max)
@@ -13,14 +12,12 @@ static int clamp(int min, int max, int val)
         return val;
 }
 
-static lNode _newNode(int data)
-{
+static lNode _newNode(size_t data) {
     lNode node = (lNode)malloc(sizeof(struct _ListNode));
     node->data = data;
     return node;
 }
-static void list_pushFirst(list L, int data)
-{
+static void list_pushFirst(list L, size_t data) {
     lNode node = _newNode(data);
     node->prevNode = NULL;
     node->nextNode = L->head;
@@ -31,8 +28,7 @@ static void list_pushFirst(list L, int data)
 
     L->len++;
 }
-static void list_pushLast(list L, int data)
-{
+static void list_pushLast(list L, size_t data) {
     lNode node = _newNode(data);
     node->prevNode = L->tail;
     node->nextNode = NULL;
@@ -43,24 +39,19 @@ static void list_pushLast(list L, int data)
 
     L->len++;
 }
-static void list_pushPos(list L, int pos, int data)
-{
+static void list_pushPos(list L, int pos, size_t data) {
     lNode nodeN = _newNode(data);
     lNode node;
-    if (pos >= 0)
-    {
+    if (pos >= 0) {
         node = L->head;
-        while (pos > 0)
-        {
+        while (pos > 0) {
             node = node->nextNode;
             pos--;
         }
     }
-    else
-    {
+    else {
         node = L->tail;
-        while (pos < -1)
-        {
+        while (pos < -1) {
             node = node->prevNode;
             pos++;
         }
@@ -71,10 +62,9 @@ static void list_pushPos(list L, int pos, int data)
     node->prevNode = nodeN;
     L->len++;
 }
-static int list_popFirst(list L)
-{
+static size_t list_popFirst(list L) {
     lNode n = L->head;
-    int res = n->data;
+    size_t res = n->data;
     L->head = n->nextNode;
     free(n);
     if (L->head != NULL)
@@ -84,10 +74,9 @@ static int list_popFirst(list L)
         L->tail = NULL;
     return res;
 }
-static int list_popLast(list L)
-{
+static size_t list_popLast(list L) {
     lNode n = L->tail;
-    int res = n->data;
+    size_t res = n->data;
     L->tail = n->prevNode;
     free(n);
     if (L->tail != NULL)
@@ -97,89 +86,74 @@ static int list_popLast(list L)
         L->head = NULL;
     return res;
 }
-static int list_popPos(list L, int pos)
-{
+static size_t list_popPos(list L, int pos) {
     pos = (pos + L->len / 2) % L->len - L->len / 2;
     lNode node;
-    if (pos >= 0)
-    {
+    if (pos >= 0) {
         node = L->head;
-        while (pos > 0)
-        {
+        while (pos > 0) {
             node = node->nextNode;
             pos--;
         }
     }
-    else
-    {
+    else {
         node = L->tail;
-        while (pos < -1)
-        {
+        while (pos < -1) {
             node = node->prevNode;
             pos++;
         }
     }
     node->prevNode->nextNode = node->nextNode;
     node->nextNode->prevNode = node->prevNode;
-    int res = node->data;
+    size_t res = node->data;
     free(node);
 
     L->len--;
-    return 0; // return res;
+    return res;
 }
 
-list list_new()
-{
-    list L = malloc(sizeof(struct _List));
+list list_new() {
+    list L = malloc(sizeof(list));
     L->head = NULL;
     L->tail = NULL;
     L->len = 0;
     return L;
 }
-int list_get(list L, int pos)
-{
-    if (L->len > 0)
-    {
+size_t list_get(list L, int pos) {
+    if (L->len > 0) {
         pos = (pos + L->len / 2) % L->len - L->len / 2;
         lNode node;
-        if (pos >= 0)
-        {
+        if (pos >= 0) {
             node = L->head;
-            while (pos > 0)
-            {
+            while (pos > 0) {
                 node = node->nextNode;
                 pos--;
             }
         }
-        else
-        {
+        else {
             node = L->tail;
-            while (pos < -1)
-            {
+            while (pos < -1) {
                 node = node->prevNode;
                 pos++;
             }
         }
         return node->data;
     }
-    else
-    {
+    else {
         printf("\n<<ERROR : Nothing to get>>\n");
     }
 }
-void list_push(list L, int pos, int data) // Add node to list
+void list_push(list L, int pos, size_t data) // Add node to list
 {
     lNode node = _newNode(data);
-    if (L->len == 0)
-    {
+    if (L->len == 0) {
         node->prevNode = NULL;
         node->nextNode = NULL;
         L->head = node;
         L->tail = node;
         L->len++;
     }
-    else
-    {
+    else {
         if (pos < 0)
             pos = L->len + 1 + pos;
         pos = clamp(0, L->len, pos);
@@ -191,10 +165,9 @@ void list_push(list L, int pos, int data) // Add node to list
             list_pushPos(L, pos, data);
     }
 }
-int list_pop(list L, int pos) // remove node from list
+size_t list_pop(list L, int pos) // remove node from list
 {
-    if (L->len > 0)
-    {
+    if (L->len > 0) {
         pos = (pos + L->len / 2) % L->len - L->len / 2;
         if (pos == 0)
             return list_popFirst(L);
@@ -203,19 +176,15 @@ int list_pop(list L, int pos) // remove node from list
         else
             return list_popPos(L, pos);
     }
-    else
-    {
+    else {
         printf("\n<<ERROR : Nothing to pop>>\n");
         return 0;
     }
 }
-void list_free(list L)
-{
-    if (L->len > 0)
-    {
+void list_free(list L) {
+    if (L->len > 0) {
         lNode N = L->head->nextNode;
-        while (N != NULL)
-        {
+        while (N != NULL) {
             free(N->prevNode);
             N = N->nextNode;
         }
